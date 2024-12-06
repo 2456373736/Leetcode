@@ -1,0 +1,51 @@
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+#include <algorithm>
+using namespace std;
+
+int maxCount(vector<int>& banned, int n, int maxSum) {
+    unordered_set<int> bannedSet(banned.begin(), banned.end());
+    vector<int> validNumbers;
+
+    // Step 1: Filter valid integers
+    for (int i = 1; i <= n; ++i) {
+        if (bannedSet.find(i) == bannedSet.end()) {
+            validNumbers.push_back(i);
+        }
+    }
+
+    // Step 2: Sort valid integers
+    sort(validNumbers.begin(), validNumbers.end());
+
+    // Step 3: Select integers while adhering to maxSum
+    int sum = 0, count = 0;
+    for (int num : validNumbers) {
+        if (sum + num > maxSum) {
+            break;
+        }
+        sum += num;
+        count++;
+    }
+
+    return count;
+}
+
+int main() {
+    // Example 1
+    vector<int> banned1 = {1, 6, 5};
+    int n1 = 5, maxSum1 = 6;
+    cout << "Output: " << maxCount(banned1, n1, maxSum1) << endl;
+
+    // Example 2
+    vector<int> banned2 = {1, 2, 3, 4, 5, 6, 7};
+    int n2 = 8, maxSum2 = 1;
+    cout << "Output: " << maxCount(banned2, n2, maxSum2) << endl;
+
+    // Example 3
+    vector<int> banned3 = {11};
+    int n3 = 7, maxSum3 = 50;
+    cout << "Output: " << maxCount(banned3, n3, maxSum3) << endl;
+
+    return 0;
+}
